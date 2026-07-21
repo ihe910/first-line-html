@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Community Solutions — Interactive Script</title>
+  <style>
+    :root {
+      --accent: #0b76ef;
+      --accent-light: #00c2ff;
+      --bg: #fbfbfd;
+      --card-bg: #ffffff;
+      --text-primary: #111111;
+      --text-secondary: #555555;
+      --border-light: #eeeeee;
+      --shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 32px auto;
+      padding: 24px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      align-items: center;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button:hover {
+      background: #0968d9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(11, 118, 239, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.secondary {
+      background: var(--border-light);
+      color: var(--text-primary);
+    }
+
+    button.secondary:hover {
+      background: #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .status {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-left: auto;
+      padding: 0 8px;
+    }
+
+    .content {
+      margin: 24px 0;
+      line-height: 1.8;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 20px 0 12px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .sentence {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin: 6px 0;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .sentence.active {
+      background: linear-gradient(90deg, rgba(11, 118, 239, 0.12), transparent);
+      border-left: 3px solid var(--accent);
+      padding-left: 9px;
+    }
+
+    .progress-container {
+      margin: 24px 0 0 0;
+    }
+
+    .progress-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      border-radius: 6px;
+      transition: width 0.1s ease;
+    }
+
+    footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        margin: 12px;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      .controls {
+        gap: 8px;
+      }
+
+      button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+
+      .status {
+        width: 100%;
+        margin-left: 0;
+        padding: 0;
+        text-align: center;
+        margin-top: 8px;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🎯 Community Problems & Solutions</h1>
+    <p class="subtitle">An interactive script to share community challenges and inspire action</p>
+
+    <div class="controls">
+      <button id="playBtn" title="Play script with text-to-speech">
+        <span>▶️</span> Play
+      </button>
+      <button id="pauseBtn" class="secondary" title="Pause speech synthesis">
+        <span>⏸</span> Pause
+      </button>
+      <button id="downloadBtn" class="secondary" title="Download script as text file">
+        <span>⬇️</span> Download Script
+      </button>
+      <div class="status">
+        <span id="statusText">Ready</span>
+      </div>
+    </div>
+
+    <div class="content" id="content"></div>
+
+    <div class="progress-container">
+      <div class="progress-label">
+        <span>Progress</span>
+        <span id="progressText">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <footer>
+      <div>💡 Tip: Take a screenshot for your Goodwall post</div>
+      <div>Built with Web Speech API + responsive design</div>
+    </footer>
+  </div>
+
+  <script>
+    // ============================================
+    // CONFIGURATION & DATA
+    // ============================================
+
+    const SCRIPT = `[YOUR_SCRIPT_HERE]`;
+
+    const PROBLEMS_KEYWORDS = ['problem', 'challenge', 'issue', 'gap', 'lack', 'need', 'risk', 'barrier'];
+    const SOLUTIONS_KEYWORDS = ['solution', 'launch', 'set up', 'create', 'build', 'develop', 'plan', 'partner'];
+    const CTA_KEYWORDS = ['join us', 'sign up', 'volunteer', 'bring', 'meeting', 'call to action', 'get involved'];
+
+    // ============================================
+    // SENTENCE SPLITTING & PARSING
+    // ============================================
+
+    function splitIntoSentences(text) {
+      const pattern = /(?<=[.!?])\s+/;
+      return text.split(pattern).filter(s => s.trim().length > 0);
+    }
+
+    function categorizeSentence(text) {
+      const lower = text.toLowerCase();
+      
+      for (let keyword of CTA_KEYWORDS) {
+        if (lower.includes(keyword)) return 'cta';
+      }
+      
+      for (let keyword of SOLUTIONS_KEYWORDS) {
+        if (lower.includes(keyword)) return 'solutions';
+      }
+      
+      for (let keyword of PROBLEMS_KEYWORDS) {
+        if (lower.includes(keyword)) return 'problems';
+      }
+      
+      return 'problems'; // default
+    }
+
+    // ============================================
+    // DOM ELEMENTS
+    // ============================================
+
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const contentDiv = document.getElementById('content');
+    const statusText = document.getElementById('statusText');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+
+    // ============================================
+    // RENDER CONTENT WITH SECTIONS
+    // ============================================
+
+    function renderContent() {
+      contentDiv.innerHTML = '';
+      const sentences = splitIntoSentences(SCRIPT);
+
+      let currentSection = null;
+      let sectionDiv = null;
+      let sentenceIndex = 0;
+
+      sentences.forEach((sentence) => {
+        const category = categorizeSentence(sentence);
+
+        // Create or switch section
+        if (category !== currentSection) {
+          currentSection = category;
+          sectionDiv = document.createElement('div');
+          sectionDiv.className = 'section';
+
+          const sectionTitle = document.createElement('h2');
+          sectionTitle.className = 'section-title';
+          sectionTitle.textContent = currentSection === 'problems' 
+            ? '❌ Problems' 
+            : currentSection === 'solutions' 
+            ? '✅ Solutions' 
+            : '🚀 Call to Action';
+
+          sectionDiv.appendChild(sectionTitle);
+          contentDiv.appendChild(sectionDiv);
+        }
+
+        // Create sentence element
+        const sentenceEl = document.createElement('span');
+        sentenceEl.className = 'sentence';
+        sentenceEl.dataset.index = sentenceIndex;
+        sentenceEl.textContent = sentence;
+        sectionDiv.appendChild(sentenceEl);
+
+        sentenceIndex++;
+      });
+    }
+
+    // ============================================
+    // TEXT-TO-SPEECH ENGINE
+    // ============================================
+
+    let utteranceQueue = [];
+    let currentUtterance = null;
+    let isSpeaking = false;
+    let startIndex = 0;
+
+    function clearHighlights() {
+      document.querySelectorAll('.sentence').forEach(el => {
+        el.classList.remove('active');
+      });
+    }
+
+    function highlightSentence(index) {
+      clearHighlights();
+      if (index >= 0) {
+        const el = document.querySelector(`.sentence[data-index="${index}"]`);
+        if (el) {
+          el.classList.add('active');
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+      updateProgress(index);
+    }
+
+    function updateProgress(index) {
+      const sentences = splitIntoSentences(SCRIPT);
+      const progress = sentences.length > 0 ? Math.min((index + 1) / sentences.length, 1) : 0;
+      const percent = Math.round(progress * 100);
+      progressFill.style.width = percent + '%';
+      progressText.textContent = percent + '%';
+    }
+
+    function speakFromIndex(index = 0) {
+      window.speechSynthesis.cancel();
+      clearHighlights();
+      updateProgress(-1);
+
+      const sentences = splitIntoSentences(SCRIPT);
+      if (sentences.length === 0) return;
+
+      startIndex = Math.max(0, Math.min(index, sentences.length - 1));
+      utteranceQueue = sentences.slice(startIndex).map((text, relativeIndex) => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        const absoluteIndex = startIndex + relativeIndex;
+
+        utterance.onstart = () => {
+          isSpeaking = true;
+          highlightSentence(absoluteIndex);
+          statusText.textContent = 'Speaking...';
+        };
+
+        utterance.onend = () => {
+          if (absoluteIndex === sentences.length - 1) {
+            isSpeaking = false;
+            clearHighlights();
+            statusText.textContent = 'Finished';
+            progressFill.style.width = '100%';
+            progressText.textContent = '100%';
+          }
+        };
+
+        utterance.onerror = (event) => {
+          statusText.textContent = `Error: ${event.error}`;
+        };
+
+        return utterance;
+      });
+
+      // Queue up utterances sequentially
+      function speakNext() {
+        if (utteranceQueue.length === 0) return;
+        currentUtterance = utteranceQueue.shift();
+        currentUtterance.onend = () => speakNext();
+        window.speechSynthesis.speak(currentUtterance);
+      }
+
+      speakNext();
+    }
+
+    // ============================================
+    // DOWNLOAD FUNCTIONALITY
+    // ============================================
+
+    function downloadScript() {
+      const blob = new Blob([SCRIPT], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'community-script.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+
+    playBtn.addEventListener('click', () => {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        statusText.textContent = 'Resumed...';
+      } else {
+        speakFromIndex(0);
+      }
+    });
+
+    pauseBtn.addEventListener('click', () => {
+      window.speechSynthesis.pause();
+      statusText.textContent = 'Paused';
+    });
+
+    downloadBtn.addEventListener('click', downloadScript);
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+
+    renderContent();
+    statusText.textContent = `Ready (${splitIntoSentences(SCRIPT).length} sentences)`;
+  </script>
+</body>
+</html>
