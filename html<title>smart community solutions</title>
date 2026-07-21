@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Community Solutions - Building Better Communities with AI & Technology</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --primary-green: #10b981;
+            --secondary-green: #34d399;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --text-light: #1e293b;
+            --text-dark: #e2e8f0;
+            --card-light: #ffffff;
+            --card-dark: #1e293b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--text-dark);
+        }
+
+        /* Navigation & Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-green) 100%);
+            color: white;
+            padding: 80px 2rem;
+            text-align: center;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideInDown 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease;
+            line-height: 1.8;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 3rem 0 2rem;
+            color: var(--primary-blue);
+        }
+
+        body.dark-mode .section-title {
+            color: var(--secondary-green);
+        }
+
+        /* Random Solution Button */
+        .random-solution-btn {
+            display: block;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .random-solution-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .random-solution-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Community Problem Card */
+        .community-card {
+            background: var(--card-light);
+            border-radius: 15px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .community-card {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .community-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .community-card:hover::before {
+            left: 100%;
+        }
+
+        .community-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-green);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        body.dark-mode .card-icon {
+            color: var(--secondary-green);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+        }
+
+        body.dark-mode .card-title {
+            color: var(--secondary-green);
+        }
+
+        .card-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode .card-description {
+            color: var(--text-dark);
+        }
+
+        .card-btn {
+            background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-green) 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .card-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .card-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Solution Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-light);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        body.dark-mode .modal-content {
+            background: var(--card-dark);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-green);
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        body.dark-mode .modal-header h2 {
+            color: var(--secondary-green);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .close-btn {
+            color: var(--secondary-green);
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .solution-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+        }
+
+        .solution-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        body.dark-mode .solution-description {
+            color: var(--text-dark);
+        }
+
+        .solution-features {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-mode .solution-features {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
+        }
+
+        .solution-features h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .solution-features h3 {
+            color: var(--secondary-green);
+        }
+
+        .solution-features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .solution-features li {
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .solution-features li {
+            color: var(--text-dark);
+        }
+
+        .solution-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .close-modal-btn {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-blue);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        body.dark-mode footer {
+            background: #0c0e27;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: var(--secondary-green);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .header-container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 40px 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .card-btn, .close-modal-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .random-solution-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-globe"></i>
+                Smart Community Solutions
+            </div>
+            <div class="nav-buttons">
+                <button class="theme-toggle" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Building Better Communities with AI & Technology</h1>
+        <p>Communities become stronger when people and technology work together. Discover smart solutions to everyday challenges facing our neighborhoods.</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title">Community Challenges & Smart Solutions</h2>
+
+        <!-- Random Solution Button -->
+        <button class="random-solution-btn" onclick="showRandomSolution()">
+            <i class="fas fa-dice"></i> Show Random Community Solution
+        </button>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid">
+            <!-- Card 1: Waste Management -->
+            <div class="community-card">
+                <div class="card-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h3 class="card-title">Poor Waste Management</h3>
+                <p class="card-description">Communities struggle with garbage collection and disposal, leading to environmental degradation.</p>
+                <button class="card-btn" onclick="showSolution(0)">View AI Solution</button>
+            </div>
+
+            <!-- Card 2: Flooding/Drainage -->
+            <div class="community-card">
+                <div class="card-icon">
+                    <i class="fas fa-water"></i>
+                </div>
+                <h3 class="card-title">Flooding from Blocked Drainage</h3>
+                <p class="card-description">Heavy rains cause flooding due to poor drainage systems and infrastructure maintenance.</p>
+                <button class="card-btn" onclick="showSolution(1)">View AI Solution</button>
+            </div>
+
+            <!-- Card 3: Youth Unemployment -->
+            <div class="community-card">
+                <div class="card-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3 class="card-title">Unemployment Among Young People</h3>
+                <p class="card-description">Limited job opportunities and skills mismatch leave many youth without employment.</p>
+                <button class="card-btn" onclick="showSolution(2)">View AI Solution</button>
+            </div>
+
+            <!-- Card 4: Electricity Supply -->
+            <div class="community-card">
+                <div class="card-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3 class="card-title">Poor Electricity Supply</h3>
+                <p class="card-description">Unreliable power supply affects productivity, healthcare, and quality of life.</p>
+                <button class="card-btn" onclick="showSolution(3)">View AI Solution</button>
+            </div>
+
+            <!-- Card 5: Insecurity -->
+            <div class="community-card">
+                <div class="card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="card-title">Insecurity</h3>
+                <p class="card-description">Crime and security concerns create fear and limit community movement and activities.</p>
+                <button class="card-btn" onclick="showSolution(4)">View AI Solution</button>
+            </div>
+
+            <!-- Card 6: Healthcare Access -->
+            <div class="community-card">
+                <div class="card-icon">
+                    <i class="fas fa-hospital"></i>
+                </div>
+                <h3 class="card-title">Poor Healthcare Access</h3>
+                <p class="card-description">Limited medical facilities and resources make quality healthcare difficult to access.</p>
+                <button class="card-btn" onclick="showSolution(5)">View AI Solution</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Modal -->
+    <div id="solutionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="solutionTitle">Solution</h2>
+                <button class="close-btn" onclick="closeSolution()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="solutionBody">
+                <!-- Solution content will be inserted here -->
+            </div>
+            <button class="close-modal-btn" onclick="closeSolution()">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <i class="fas fa-heart" style="color: var(--primary-green);"></i>
+            Created with <a href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a>
+            <i class="fas fa-heart" style="color: var(--primary-green);"></i>
+        </p>
+    </footer>
+
+    <script>
+        // Solutions Data
+        const solutions = [
+            {
+                title: 'Smart Waste Management System',
+                icon: 'fas fa-recycle',
+                description: 'An AI-powered waste management system that uses IoT sensors and computer vision to optimize collection routes, segregate recyclables, and predict waste generation patterns.',
+                features: [
+                    'Smart bins with fill-level sensors send alerts when full',
+                    'AI optimizes collection truck routes reducing emissions by 40%',
+                    'Computer vision identifies recyclable materials for better sorting',
+                    'Mobile app lets residents track waste collection schedules',
+                    'Real-time analytics dashboard for city planners'
+                ]
+            },
+            {
+                title: 'Intelligent Drainage Monitoring System',
+                icon: 'fas fa-tint',
+                description: 'AI-powered sensors monitor drainage systems in real-time, detecting blockages before they cause flooding and alerting maintenance teams automatically.',
+                features: [
+                    'IoT sensors detect water flow and identify blockages instantly',
+                    'Machine learning predicts flood risks during heavy rainfall',
+                    'Automated alerts notify maintenance teams of issues',
+                    'Mobile alerts inform residents of drainage work schedules',
+                    'Historical data helps improve drainage infrastructure planning'
+                ]
+            },
+            {
+                title: 'AI Career Matching & Skills Platform',
+                icon: 'fas fa-graduation-cap',
+                description: 'An intelligent platform connecting young people with job opportunities through skills assessment, personalized training, and employer matching powered by AI.',
+                features: [
+                    'AI analyzes skills and recommends relevant job opportunities',
+                    'Free online training courses matched to local job demands',
+                    'Direct connections with employers seeking talent',
+                    'Peer mentorship network with experienced professionals',
+                    'Certificate programs recognized by local businesses'
+                ]
+            },
+            {
+                title: 'Smart Grid Energy Optimization',
+                icon: 'fas fa-solar-panel',
+                description: 'AI-powered energy management system with solar integration, predictive maintenance, and demand forecasting to ensure stable, clean electricity supply.',
+                features: [
+                    'AI predicts demand patterns for better power distribution',
+                    'Integration with solar panels and renewable energy sources',
+                    'Predictive maintenance prevents power outages',
+                    'Smart pricing encourages energy conservation during peak hours',
+                    'Real-time monitoring dashboard for grid operators'
+                ]
+            },
+            {
+                title: 'Community Safety Intelligence Network',
+                icon: 'fas fa-video',
+                description: 'An integrated security system using AI-powered cameras, emergency response coordination, and community alerts to improve public safety.',
+                features: [
+                    'AI-powered cameras detect suspicious activities in real-time',
+                    'Quick emergency response coordination system',
+                    'Community WhatsApp alerts for safety warnings',
+                    'Facial recognition helps locate missing persons',
+                    'Data insights help police focus on high-crime areas'
+                ]
+            },
+            {
+                title: 'Telemedicine & Health AI Platform',
+                icon: 'fas fa-laptop-medical',
+                description: 'A digital health platform providing remote consultations, AI diagnostics, and medicine delivery to ensure everyone has access to quality healthcare.',
+                features: [
+                    'Telemedicine consultations with qualified doctors 24/7',
+                    'AI chatbot provides preliminary health assessments',
+                    'Pharmacy delivery service brings medicines to your home',
+                    'Electronic health records accessible anytime, anywhere',
+                    'Health education videos in local languages'
+                ]
+            }
+        ];
+
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            updateThemeToggleButton();
+        }
+
+        // Update Theme Toggle Button
+        function updateThemeToggleButton() {
+            const btn = document.querySelector('.theme-toggle');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                btn.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
+        }
+
+        // Load Dark Mode Preference
+        function loadDarkModePreference() {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                updateThemeToggleButton();
+            }
+        }
+
+        // Show Solution Modal
+        function showSolution(index) {
+            const solution = solutions[index];
+            const modal = document.getElementById('solutionModal');
+            const title = document.getElementById('solutionTitle');
+            const body = document.getElementById('solutionBody');
+
+            title.innerHTML = solution.title;
+            body.innerHTML = `
+                <div class="solution-icon">
+                    <i class="${solution.icon}"></i>
+                </div>
+                <p class="solution-description">${solution.description}</p>
+                <div class="solution-features">
+                    <h3>Key Features:</h3>
+                    <ul>
+                        ${solution.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Show Random Solution
+        function showRandomSolution() {
+            const randomIndex = Math.floor(Math.random() * solutions.length);
+            showSolution(randomIndex);
+        }
+
+        // Close Solution Modal
+        function closeSolution() {
+            const modal = document.getElementById('solutionModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close Modal on Escape Key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSolution();
+            }
+        });
+
+        // Close Modal on Outside Click
+        document.getElementById('solutionModal').addEventListener('click', (e) => {
+            if (e.target.id === 'solutionModal') {
+                closeSolution();
+            }
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDarkModePreference();
+        });
+    </script>
+</body>
+</html>
